@@ -1,0 +1,123 @@
+#Discussion figure
+library(readxl)
+
+# 1. Data
+dat <- read_excel("Data/Table_Discussion.xlsx")
+
+# 2. Colours
+n <- length(unique(dat$Objectives))
+pal <- unlist(mapply(RColorBrewer::brewer.pal, 9, 'Set1'))
+pal2 <- unlist(mapply(RColorBrewer::brewer.pal, 5, 'Set2'))
+pal3 <- unlist(mapply(RColorBrewer::brewer.pal, 6, 'Set3'))
+pal <- c(pal, pal2, pal3)
+pal <- paste(shQuote(pal[1:n]), collapse = ", ")
+
+# Domain for Colours
+dom <- unique(dat$Objectives)
+dom <- paste(shQuote(dom), collapse = ", ")
+
+my_color <- paste0("d3.scaleOrdinal().domain([", dom, ",'nodes']).range([", pal, ",'grey'])")
+
+#1.Objectives in center----
+# 3. Links
+temp <- dat %>%
+  group_by(Alternatives, Objectives, SES_AS) %>%
+  count()
+
+# Sub_driver -> Life_history_traits
+links1 <- temp %>%
+  transmute(source = Alternatives, target = Objectives, value = n, linkgroup = Objectives)
+
+# Life_history_traits -> Live_stage
+links2 <- temp %>%
+  transmute(source = Objectives, target = SES_AS, value = n, linkgroup = Objectives)
+
+# combine
+sankey_links <- bind_rows(links1, links2)
+
+# 4. Knots
+nodes <- data.frame(name = unique(c(sankey_links$source, sankey_links$target)))
+nodes$group <- "nodes"
+
+# IDs
+sankey_links$IDsource <- match(sankey_links$source, nodes$name) - 1
+sankey_links$IDtarget <- match(sankey_links$target, nodes$name) - 1
+
+# 5. Sankey-Plot
+sankey_traits_plot <- networkD3::sankeyNetwork(
+  Links = sankey_links,
+  Nodes = nodes,
+  Source = "IDsource",
+  Target = "IDtarget",
+  Value = "value",
+  NodeID = "name",
+  fontSize = 14,
+  fontFamily = 'Ubuntu',
+  height = 700,
+  width = 1000,
+  colourScale = my_color,
+  LinkGroup = "linkgroup",
+  NodeGroup = "group"
+)
+
+# 6. Title
+sankey_traits_plot <- htmlwidgets::prependContent(
+  sankey_traits_plot,
+  htmltools::tags$h5("Pathways in SES")
+)
+
+sankey_traits_plot
+
+saveWidget(sankey_traits_plot, "sankey_traits_plot_objectives.html")
+
+#2.SES_AS in center----
+# 3. Links
+temp <- dat %>%
+  group_by(Alternatives, SES_AS, Objectives) %>%
+  count()
+
+# Sub_driver -> Life_history_traits
+links1 <- temp %>%
+  transmute(source = Alternatives, target = SES_AS, value = n, linkgroup = SES_AS)
+
+# Life_history_traits -> Live_stage
+links2 <- temp %>%
+  transmute(source = SES_AS, target = Objectives, value = n, linkgroup = SES_AS)
+
+# combine
+sankey_links <- bind_rows(links1, links2)
+
+# 4. Knots
+nodes <- data.frame(name = unique(c(sankey_links$source, sankey_links$target)))
+nodes$group <- "nodes"
+
+# IDs
+sankey_links$IDsource <- match(sankey_links$source, nodes$name) - 1
+sankey_links$IDtarget <- match(sankey_links$target, nodes$name) - 1
+
+# 5. Sankey-Plot
+sankey_traits_plot <- networkD3::sankeyNetwork(
+  Links = sankey_links,
+  Nodes = nodes,
+  Source = "IDsource",
+  Target = "IDtarget",
+  Value = "value",
+  NodeID = "name",
+  fontSize = 14,
+  fontFamily = 'Ubuntu',
+  height = 700,
+  width = 1000,
+  colourScale = my_color,
+  LinkGroup = "linkgroup",
+  NodeGroup = "group"
+)
+
+# 6. Title
+sankey_traits_plot <- htmlwidgets::prependContent(
+  sankey_traits_plot,
+  htmltools::tags$h5("Pathways in SES")
+)
+
+sankey_traits_plot
+
+saveWidget(sankey_traits_plot, "sankey_traits_plot_SES_AS.html")
