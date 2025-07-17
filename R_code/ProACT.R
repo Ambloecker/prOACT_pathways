@@ -1,7 +1,7 @@
 library(readxl)
 library(patchwork)
 library(tidyverse)
-PrOACT_Spaceparti_table <- read_excel("~/Desktop/MarEEchange/1_Paper_publi/1_SES/PrOACT/PrOACT_Spaceparti_table.xlsx")
+PrOACT_Spaceparti_table <- read_excel("Data/PrOACT_table.xlsx")
 dat <- PrOACT_Spaceparti_table
 
 
