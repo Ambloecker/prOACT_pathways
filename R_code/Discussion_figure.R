@@ -1,5 +1,6 @@
 #Discussion figure
 library(readxl)
+library(tidyverse)
 
 # 1. Data
 dat <- read_excel("Data/Table_Discussion.xlsx")
