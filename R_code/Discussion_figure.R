@@ -37,11 +37,10 @@ objective_n <- c(healthy_ecosystem = "healthy ecosystem",
                  s_f_economically_viable = "economically viable (SF)",
                  s_f_environmentally_friendly = "environmentally friendly (SF)")
 
-SES_n <- c(S_AS_socio_economic = "S-AS socio-economic",
-           S_AS_scientific_advice = "S-AS scientific advice",
+SES_n <- c( S_AS_scientific_advice = "S-AS scientific advice",
            E_AS_predation = "E-AS predation",
            PE_AS_abiotic = "PE-AS abiotic",
-           S_AS_rule_making = "S-AS rule making",
+           S_AS_mismanagement = "S-AS mismanagement",
            SE_AS_recreational = "SE-AS recreational",
            SE_AS_harvesting = "SE-AS harvesting")
 
@@ -125,7 +124,7 @@ pal3 <- unlist(mapply(RColorBrewer::brewer.pal, 6, 'Set3'))
 pal <- c(pal, pal2, pal3)
 pal <- paste(shQuote(pal[1:n]), collapse = ", ")
 
-pal <- c( "'#E41A1C', '#21e3fc', '#FF7F00', '#C1CDCD', '#37fa44', '#FFFF33'")
+pal <- c( "'#E41A1C', '#21e3fc', '#FF7F00', '#C1CDCD', '#37fa44'")
 #pal <- c( "#E41A1C", '#21e3fc', '#FF7F00', '#C1CDCD', '#37fa44', '#FFFF33')
 
 # Domain for Colours
@@ -165,7 +164,7 @@ sankey_traits_plot <- networkD3::sankeyNetwork(
   Target = "IDtarget",
   Value = "value",
   NodeID = "name",
-  fontSize = 14,
+  fontSize = 18,
   fontFamily = 'Ubuntu',
   height = 700,
   width = 1000,
@@ -174,13 +173,13 @@ sankey_traits_plot <- networkD3::sankeyNetwork(
   NodeGroup = "group"
 )
 
-# 6. Title
-sankey_traits_plot <- htmlwidgets::prependContent(
-  sankey_traits_plot,
-  htmltools::tags$h5("Pathways in SES")
-)
-
 sankey_traits_plot
+
+# 6. Title
+# sankey_traits_plot <- htmlwidgets::prependContent(
+#   sankey_traits_plot,
+#   htmltools::tags$h5("Pathways in SES")
+# )
 
 #saveWidget(sankey_traits_plot, "sankey_traits_plot_SES_AS.html")
 
