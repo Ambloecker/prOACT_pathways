@@ -157,8 +157,8 @@ colAv[dat_weights_long_mean$Alternatives == "coastal infrastructure"] <- "black"
 p_teamA <- ggplot(dat_weights_long_A) +
   geom_vline(xintercept = c(1:21), linetype = 3, col = "grey60")+
   geom_point(aes(x=reorder(Alternatives, -total_score), y=total_score), col=colA, size =3)+
-  ylab("Total Score")+
-  xlab("Alternatives")+
+  ylab("Ability Score")+
+  xlab("Management measures")+
   theme_test()+
   theme(axis.text.x = element_text(angle=90, size = 12),
         axis.title.x = element_text(size = 14),
@@ -170,7 +170,7 @@ p_teamB <- ggplot(dat_weights_long_B) +
   geom_vline(xintercept = c(1:21), linetype = 3, col = "grey60")+
   geom_point(aes(x=reorder(Alternatives, -total_score), y=total_score), col=colB, size =3)+
   ylab("")+
-  xlab("Alternatives")+
+  xlab("Management measures")+
   theme_test()+
   theme(axis.text.x = element_text(angle=90, size = 12),
         axis.title.x = element_text(size = 14),
@@ -181,7 +181,7 @@ p_mean <- ggplot(dat_weights_long_mean) +
   geom_vline(xintercept = c(1:21), linetype = 3, col = "grey60")+
   geom_point(aes(x=reorder(Alternatives, -total_score), y=total_score), col=colAv, size =3)+
   ylab("")+
-  xlab("Alternatives")+
+  xlab("Management measures")+
   theme_test()+
   theme(axis.text.x = element_text(angle=90, size = 12),
         axis.title.x = element_text(size = 14),
